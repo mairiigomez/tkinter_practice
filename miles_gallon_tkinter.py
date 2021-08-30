@@ -3,7 +3,8 @@ TO DO:
 *after clickin on the command clean the entries 
 
 """
-import tkinter as tk 
+import tkinter as tk
+from tkinter.constants import END 
 
 total_miles = 0
 total_gallons = 0 
@@ -14,19 +15,27 @@ def miles_gallon():
 
     gallons = gallons_entry.get()
     miles = miles_entry.get()
-
+    
     if str.isalpha(gallons) or str.isalpha(miles):
         result_window = tk.Toplevel()
-        result_window.geometry('400x200+500+300')
+        result_window.geometry('300x200+500+300')
         # Show the result in a label in the second window
         print_result_mp = tk.Label(result_window, text='Enter only numbers')
         print_result_mp.place(x=100,y=100)
+
+    elif gallons == '' or miles == '':
+        result_window = tk.Toplevel()
+        result_window.geometry('300x200+500+300')
+        # Show the result in a label in the second window
+        print_result_mp = tk.Label(result_window, text='It cannot be empty')
+        print_result_mp.place(x=100,y=100)
+
     else: 
         gallons = float(gallons_entry.get())
         miles = float(miles_entry.get())
         total_miles += miles
         total_gallons += gallons
-        miles_per_gallon = miles/gallons
+        miles_per_gallon = round(miles/gallons,2)
 
         # Show the result in a window on top of root window
         result_window = tk.Toplevel()
@@ -34,6 +43,9 @@ def miles_gallon():
         # Show the result in a label in the second window
         print_result_mp = tk.Label(result_window, text=miles_per_gallon)
         print_result_mp.place(x=100,y=100)
+
+        miles_entry.delete(0, END)
+        gallons_entry.delete(0, END)
 
 def total_miles_gallons():
     result_window = tk.Toplevel()
@@ -53,6 +65,9 @@ def reset():
 
     total_miles = 0
     total_gallons = 0
+
+    miles_entry.delete(0, END)
+    gallons_entry.delete(0, END)
 
 # Main window, size, title and color
 root = tk.Tk()
